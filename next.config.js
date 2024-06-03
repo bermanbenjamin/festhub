@@ -20,6 +20,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "randomuser.me",
       },
+      {
+        protocol: "https",
+        hostname: "t3.ftcdn.net"
+      }
     ],
   },
   experimental: {

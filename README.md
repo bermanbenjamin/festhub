@@ -64,7 +64,6 @@ pnpm run dev
 >
 > After upgrade Auth.js to v5: `NEXTAUTH_URL` has removed from `.env.example`.
 
-
 ## Roadmap
 
 - [x] ~Fix Vaul drawer for mobile sign in~
@@ -135,3 +134,5 @@ This project was inspired by shadcn's [Taxonomy](https://github.com/shadcn-ui/ta
 - Shadcn ([@shadcn](https://twitter.com/shadcn))
 - Steven Tey ([@steventey](https://twitter.com/steventey))
 - Antonio Erdeljac ([@YTCodeAntonio](https://twitter.com/AntonioErdeljac))
+
+![Class Diagram](./classMap.jpg)

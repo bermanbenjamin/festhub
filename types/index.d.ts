@@ -87,4 +87,20 @@ export type InfoLdg = {
   image: string;
   description: string;
   list: InfoList[];
-}
+};
+
+export type Event = {
+  name: string;
+  inviteList: InviteList[];
+  viewAmount: number;
+  address: string;
+  heroImageUrl: string;
+  startDate: Date;
+  finishDate: Date;
+  createdAt: Date;
+  description: string;
+};
+
+export type InviteList = {
+  name: string;
+};

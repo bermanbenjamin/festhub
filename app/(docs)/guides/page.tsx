@@ -1,27 +1,28 @@
-import Link from "next/link"
-import { allGuides } from "contentlayer/generated"
-import { compareDesc } from "date-fns"
+import Link from "next/link";
+import { allGuides } from "contentlayer/generated";
+import { compareDesc } from "date-fns";
 
-import { formatDate } from "@/lib/utils"
-import { DocsPageHeader } from "@/components/docs/page-header"
+import { formatDate } from "@/lib/utils";
+import { DocsPageHeader } from "@/components/docs/page-header";
 
 export const metadata = {
   title: "Guides",
   description:
     "This section includes end-to-end guides for developing Next.js 13 apps.",
-}
+};
 
 export default function GuidesPage() {
   const guides = allGuides
     .filter((guide) => guide.published)
     .sort((a, b) => {
-      return compareDesc(new Date(a.date), new Date(b.date))
-    })
+      return compareDesc(new Date(a.date), new Date(b.date));
+    });
 
   return (
     <div className="py-6 lg:py-10">
       <DocsPageHeader
-        heading="Guides"
+        className="pb-4"
+        heading={metadata.title}
         text="This section includes end-to-end guides for developing Next.js 13 apps."
       />
       {guides?.length ? (
@@ -61,5 +62,5 @@ export default function GuidesPage() {
         <p>No guides published.</p>
       )}
     </div>
-  )
+  );
 }

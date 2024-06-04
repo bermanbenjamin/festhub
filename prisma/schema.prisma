@@ -6,8 +6,26 @@ generator client {
 }
 
 datasource db {
-  provider     = "postgresql"
-  url          = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum BillingType {
+  PERCENT
+  FIXED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum TicketStatus {
+  CREATED
+  CONFIRMED
+  CANCELED
+  REFUNDED
 }
 
 model Account {
@@ -61,6 +79,10 @@ model User {
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 
+  Event    Event[]
+  ListName ListName[]
+
+  @@index([email])
   @@map(name: "users")
 }
 
@@ -71,4 +93,59 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map(name: "verification_tokens")
+}
+
+model Event {
+  id          String     @id @default(uuid())
+  name        String
+  owner       User       @relation(fields: [userId], references: [id])
+  userId      String     @map("user_id")
+  description String
+  createdAt   DateTime   @default(now()) @map("created_at")
+  nameLists   ListName[]
+
+  @@map("events")
+}
+
+model ListName {
+  id          String       @id @default(uuid())
+  name        String
+  size        Int
+  description String
+  url         String
+  signedUsers SignedUser[]
+  eventId     String       @unique
+  userId      String       @unique
+  priceId     String       @unique
+
+  price Price @relation(fields: [priceId], references: [id], onDelete: Cascade)
+  owner User  @relation(fields: [userId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+
+  @@map("list_names")
+}
+
+model SignedUser {
+  id         String       @id @default(uuid())
+  listName   ListName     @relation(fields: [listNameId], references: [id], onDelete: Cascade)
+  listNameId String
+  name       String
+  gender     Gender
+  birthdate  DateTime
+  createdAt  DateTime     @default(now()) @map(name: "created_at")
+  status     TicketStatus
+
+  @@map("signed_users")
+}
+
+model Price {
+  id                  String      @id @default(uuid())
+  value               Decimal
+  discount            Decimal
+  discountType        BillingType
+  availableCommission Decimal
+  commissionType      BillingType
+  ListName            ListName?
+
+  @@map("prices")
 }
